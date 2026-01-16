@@ -55,7 +55,7 @@
             max-height: 55vh;
             padding: 30px;
             font-family: 'NewFontVF', sans-serif;
-            font-size: 72px;
+            font-size: 90px;
             line-height: 1.1;
             text-align: center;
             color: #000;
@@ -67,6 +67,13 @@
             overflow-y: auto;
             overflow-x: hidden;
             box-sizing: border-box;
+            font-size-adjust: 0.58;
+        }
+
+        /* Force consistent font for all text including pasted content */
+        .display-area * {
+            font-family: 'NewFontVF', sans-serif !important;
+            font-size: inherit !important;
         }
 
         .download-link {
@@ -122,23 +129,6 @@
             cursor: pointer;
             border-radius: 0;
             border: none;
-        }
-
-        /* Increase touch target for mobile */
-        @media (pointer: coarse) {
-            .slider-container input[type="range"] {
-                height: 10px;
-            }
-
-            .slider-container input[type="range"]::-webkit-slider-thumb {
-                width: 30px;
-                height: 30px;
-            }
-
-            .slider-container input[type="range"]::-moz-range-thumb {
-                width: 30px;
-                height: 30px;
-            }
         }
 
         .arial-preview {
@@ -237,6 +227,15 @@
         fontSizeSlider.addEventListener('input', () => {
             const size = fontSizeSlider.value;
             displayText.style.fontSize = size + 'px';
+        });
+
+        // Also handle touch events for mobile
+        fontSizeSlider.addEventListener('touchmove', (e) => {
+            e.stopPropagation();
+        });
+
+        fontSizeSlider.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
         });
 
         // Completely prevent window scrolling
