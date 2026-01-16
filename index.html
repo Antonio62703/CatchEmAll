@@ -124,6 +124,23 @@
             border: none;
         }
 
+        /* Increase touch target for mobile */
+        @media (pointer: coarse) {
+            .slider-container input[type="range"] {
+                height: 10px;
+            }
+
+            .slider-container input[type="range"]::-webkit-slider-thumb {
+                width: 30px;
+                height: 30px;
+            }
+
+            .slider-container input[type="range"]::-moz-range-thumb {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
         .arial-preview {
             width: 100%;
             max-width: 800px;
