@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Variable Font Animator</title>
+    <style>
+        @font-face {
+            font-family: 'NewFontVF';
+            src: url('NewFontVF.ttf') format('truetype');
+            font-weight: 1 999;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 60px;
+            height: 100vh;
+            width: 100vw;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            font-family: sans-serif;
+            overflow: hidden !important;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .display-area {
+            width: 100%;
+            max-height: 55vh;
+            padding: 30px;
+            font-family: 'NewFontVF', sans-serif;
+            font-size: 72px;
+            line-height: 1.1;
+            text-align: center;
+            color: #000;
+            animation: weightPulse 2.5s ease-in-out infinite;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            outline: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+
+        .download-link {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #000;
+            text-decoration: underline;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .controls {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider-container {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slider-container input[type="range"] {
+            flex-grow: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #000;
+            outline: none;
+            border-radius: 0;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #000;
+            cursor: pointer;
+            border-radius: 0;
+        }
+
+        .slider-container input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #000;
+            cursor: pointer;
+            border-radius: 0;
+            border: none;
+        }
+
+        .arial-preview {
+            width: 100%;
+            max-width: 800px;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 5px;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            text-align: center;
+            color: #333;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow: hidden;
+            box-sizing: border-box;
+            opacity: 0.5;
+        }
+
+        @keyframes weightPulse {
+            0% {
+                font-variation-settings: 'wdth' 0;
+            }
+            50% {
+                font-variation-settings: 'wdth' 400;
+            }
+            100% {
+                font-variation-settings: 'wdth' 0;
+            }
+        }
+
+        /* Mobile-specific styles */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .display-area {
+                font-size: 48px;
+                max-height: 40vh;
+                padding: 15px;
+            }
+
+            .slider-container {
+                width: 80%;
+            }
+
+            .arial-preview {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .download-link {
+                font-size: 14px;
+            }
+        }
+
+        /* Extra small phones */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .display-area {
+                font-size: 36px;
+            }
+
+            .slider-container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="display-area" id="displayText" contenteditable="true">Pokemon Typeface</div>
+    </div>
+    <div class="controls">
+        <div class="slider-container">
+            <input type="range" id="fontSizeSlider" min="50" max="400" value="72" step="1">
+        </div>
+    </div>
+    <div class="arial-preview" id="arialPreview">Pokemon Typeface</div>
+    <a href="https://drive.google.com/file/d/1be_RGBku4wmm0OdeqXIsjAWXIN4tyOQJ/view?usp=share_link" target="_blank" class="download-link">download</a>
+
+    <script>
+        const displayText = document.getElementById('displayText');
+        const arialPreview = document.getElementById('arialPreview');
+        const fontSizeSlider = document.getElementById('fontSizeSlider');
+
+        displayText.addEventListener('input', () => {
+            arialPreview.textContent = displayText.textContent;
+        });
+
+        fontSizeSlider.addEventListener('input', () => {
+            const size = fontSizeSlider.value;
+            displayText.style.fontSize = size + 'px';
+        });
+
+        // Completely prevent window scrolling
+        window.addEventListener('scroll', (e) => {
+            window.scrollTo(0, 0);
+            e.preventDefault();
+        }, { passive: false });
+
+        // Prevent wheel events outside typing area
+        document.addEventListener('wheel', (e) => {
+            if (!displayText.contains(e.target)) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Prevent touch scrolling outside typing area
+        document.addEventListener('touchmove', (e) => {
+            if (!displayText.contains(e.target)) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Prevent keyboard scrolling
+        window.addEventListener('keydown', (e) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(e.key)) {
+                if (!displayText.contains(document.activeElement)) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // Auto-focus on the display text when page loads and move cursor to end
+        window.addEventListener('load', () => {
+            displayText.focus();
+            const range = document.createRange();
+            const sel = window.getSelection();
+            range.selectNodeContents(displayText);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        });
+    </script>
+</body>
+</html>
